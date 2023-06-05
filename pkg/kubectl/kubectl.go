@@ -3,6 +3,8 @@ package kubectl
 import (
 	"context"
 	"fmt"
+	"os/exec"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
@@ -48,4 +50,8 @@ func ListPods(namespace string) error {
 	}
 
 	return nil
+}
+func Execute(command string) error {
+	cmd := exec.Command("sh", "-c", command)
+	return cmd.Run()
 }

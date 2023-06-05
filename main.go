@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/sirupsen/logrus"
+	"github.com/ckone4you/golangtest/cmd"
+	logrus "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"golangtest/cmd"
 )
 
 var rootCmd = &cobra.Command{
@@ -13,16 +13,18 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
+
 	logrus.SetFormatter(&logrus.TextFormatter{
 		FullTimestamp: true,
 	})
-
+	profile, _ := rootCmd.Flags().GetString("awsIntegration-profile")
+	region, _ := rootCmd.Flags().GetString("awsIntegration-region")
 	rootCmd.AddCommand(greetCmd)
 	// Add subcommands for each tool
 	rootCmd.AddCommand(cmd.NewKubectlCommand())
-	rootCmd.AddCommand(cmd.NewAWSCommand())
-	rootCmd.AddCommand(cmd.NewHelmCommand())
-	rootCmd.AddCommand(cmd.NewBatsCommand())
+	rootCmd.AddCommand(cmd.NewAWSCommand(profile, region))
+	//rootCmd.AddCommand(cmd.NewHelmCommand())
+	//rootCmd.AddCommand(cmd.NewBatsCommand())
 
 }
 
